@@ -1,8 +1,14 @@
-[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://stand-with-ukraine.pp.ua)
+# Disclaimer:
 
-# ConnectyCube Flutter Call Kit plugin
+This plugin is not an official or affiliated product of the original plugin's creator. It's a derivative work based on the original with bug fixes and improvements.
 
-this plugin is a fork of the original [connectycube_flutter_call_kit](https://pub.dev/packages/connectycube_flutter_call_kit) plugin
+Copyright: Be mindful of copyright restrictions. If connectycube-flutter-call-kit has a license, ensure yours is compatible. You can't simply copy their README verbatim.
+Attribution: If appropriate, consider mentioning connectycube-flutter-call-kit as the original source and provide a link to their repository (if publicly available).
+
+
+# Karmm Call Kit plugin
+
+this plugin is a fork of the original [karmm_callkit](https://pub.dev/packages/karmm_callkit) plugin
 
 A Flutter plugin for displaying call screen when the app is in the background or terminated.
 It provides a complex solution for implementation the background calls feature in your app including 
