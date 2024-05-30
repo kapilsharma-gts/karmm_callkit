@@ -1,0 +1,34 @@
+name: connectycube_flutter_call_kit
+description: A Flutter plugin for displaying call screen when app in background or terminated.
+version: 0.0.1
+homepage: https://connectycube.com/
+issue_tracker: https://github.com/ConnectyCube/connectycube-flutter-call-kit/issues
+documentation: https://github.com/ConnectyCube/connectycube-flutter-call-kit/blob/master/README.md
+repository: https://github.com/ConnectyCube/connectycube-flutter-call-kit
+
+environment:
+  sdk: '>=2.12.0 <4.0.0'
+  flutter: '>=1.20.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  universal_io: ^2.0.4
+  fluttertoast: ^8.2.5
+  flutter_background_service: ^5.0.5
+  flutter_local_notifications: ^17.1.2
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.karmm.callkit
+        pluginClass: ConnectycubeFlutterCallKitPlugin
+      ios:
+        pluginClass: ConnectycubeFlutterCallKitPlugin

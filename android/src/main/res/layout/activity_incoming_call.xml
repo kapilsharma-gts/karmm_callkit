@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ace3c2">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/avatar_img"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="64dp"
+        android:padding="4dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/photo_placeholder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/circleImageView"
+        app:strokeColor="@android:color/white"
+        app:strokeWidth="2dp"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/photo_placeholder" />
+
+    <TextView
+        android:id="@+id/user_name_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:shadowColor="#7F000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="4"
+        android:text="User Name"
+        android:textColor="#FBFBFB"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/avatar_img" />
+
+    <TextView
+        android:id="@+id/call_type_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:shadowColor="#7F000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="4"
+        android:text="Incoming audio call"
+        android:textColor="#FBFBFB"
+        android:textSize="18sp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/user_name_txt" />
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/leftMotionLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layoutDescription="@xml/call_reject_scene"
+        app:layout_constraintBottom_toTopOf="@id/tvSwipeUp"
+        app:layout_constraintEnd_toStartOf="@id/rightMotionLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/call_type_txt"
+        tools:showPaths="true">
+
+        <com.skyfishjy.library.RippleBackground
+            android:id="@+id/reject_button_animation"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/end_call_btn"
+            app:layout_constraintEnd_toEndOf="@id/end_call_btn"
+            app:layout_constraintStart_toStartOf="@id/end_call_btn"
+            app:layout_constraintTop_toTopOf="@id/end_call_btn"
+            app:rb_color="#FF5A33"
+            app:rb_duration="3000"
+            app:rb_radius="28dp"
+            app:rb_rippleAmount="5"
+            app:rb_scale="2" />
+
+        <ImageView
+            android:id="@+id/end_call_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_call_end"
+            android:padding="16dp"
+            android:src="@drawable/ic_call_end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/rightMotionLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layoutDescription="@xml/call_accept_scene"
+        app:layout_constraintBottom_toTopOf="@id/tvSwipeUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/leftMotionLayout"
+        app:layout_constraintTop_toBottomOf="@id/call_type_txt"
+        tools:showPaths="true">
+
+        <com.skyfishjy.library.RippleBackground
+            android:id="@+id/accept_button_animation"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:layout_constraintBottom_toBottomOf="@id/start_call_btn"
+            app:layout_constraintEnd_toEndOf="@id/start_call_btn"
+            app:layout_constraintStart_toStartOf="@id/start_call_btn"
+            app:layout_constraintTop_toTopOf="@id/start_call_btn"
+            app:rb_color="#80CB83"
+            app:rb_duration="3000"
+            app:rb_radius="28dp"
+            app:rb_rippleAmount="5"
+            app:rb_scale="2" />
+
+
+        <ImageView
+            android:id="@+id/start_call_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/selector_call_start"
+            android:padding="16dp"
+            android:src="@drawable/ic_video_call_start"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_video_call_start" />
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
+
+    <TextView
+        android:id="@+id/tvSwipeUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="26dp"
+        android:gravity="center"
+        android:text="@string/swipe_up_to_pick_up_the_call"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
