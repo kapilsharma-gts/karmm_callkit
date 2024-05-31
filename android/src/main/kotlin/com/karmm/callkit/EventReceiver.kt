@@ -92,8 +92,11 @@ class EventReceiver : BroadcastReceiver() {
                 ConnectycubeFlutterBgPerformingService.enqueueMessageProcessing(context,broadcastIntent)
 
                 val launchIntent = getLaunchIntent(context)
-                broadcastIntent.putExtras(bundle)
-                launchIntent?.action = ACTION_CALL_ACCEPT
+                launchIntent?.apply {
+                    putExtras(bundle)
+                    action = ACTION_CALL_ACCEPT
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) // Add this flag
+                }
                 context.startActivity(launchIntent)
             }
 
