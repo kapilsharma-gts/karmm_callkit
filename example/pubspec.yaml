@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  connectycube_flutter_call_kit:
+  karmm_callkit:
     # When depending on this package from a real application you should use:
     #   connectycube_flutter_call_kit: ^x.y.z
     # See https://dart.dev/tools/pub/dependencies#version-constraints

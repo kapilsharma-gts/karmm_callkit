@@ -5,7 +5,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:connectycube_flutter_call_kit/connectycube_flutter_call_kit.dart';
+import 'package:karmm_callkit/connectycube_flutter_call_kit.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
