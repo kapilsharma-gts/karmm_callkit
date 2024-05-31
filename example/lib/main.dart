@@ -5,7 +5,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:karmm_callkit/connectycube_flutter_call_kit.dart';
+import 'package:karmm_callkit/karmm_callkit.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -373,7 +373,7 @@ void onStart(ServiceInstance service) async {
 
 Future<void> _isAndroidPermissionGranted() async {
   if (Platform.isAndroid) {
-    final bool granted = await flutterLocalNotificationsPlugin
+    await flutterLocalNotificationsPlugin
             .resolvePlatformSpecificImplementation<
                 AndroidFlutterLocalNotificationsPlugin>()
             ?.areNotificationsEnabled() ??
