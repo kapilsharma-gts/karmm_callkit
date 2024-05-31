@@ -52,9 +52,12 @@ class EventReceiver : BroadcastReceiver() {
                 processCallEnded(context, callId!!)
 
                 if (!isApplicationForeground(context)) {
+                    Log.d("EventReceiver", "App is in background")
                     broadcastIntent.putExtra("userCallbackHandleName", REJECTED_IN_BACKGROUND)
+                    ConnectycubeFlutterBgPerformingService.enqueueMessageProcessing(context,broadcastIntent)
+                } else {
+                    Log.d("EventReceiver", "App is in foreground")
                 }
-                ConnectycubeFlutterBgPerformingService.enqueueMessageProcessing(context,broadcastIntent)
             }
 
             ACTION_CALL_ACCEPT -> {
@@ -87,17 +90,18 @@ class EventReceiver : BroadcastReceiver() {
                 saveCallState(context, callId!!, CALL_STATE_ACCEPTED)
 
                 if (!isApplicationForeground(context)) {
+                    Log.d("EventReceiver", "App is in background")
                     broadcastIntent.putExtra("userCallbackHandleName", ACCEPTED_IN_BACKGROUND)
+                    ConnectycubeFlutterBgPerformingService.enqueueMessageProcessing(context,broadcastIntent)
+                } else {
+                    Log.d("EventReceiver", "App is in foreground")
                 }
-                ConnectycubeFlutterBgPerformingService.enqueueMessageProcessing(context,broadcastIntent)
 
+                Log.d("EventReceiver", "before App launch")
                 val launchIntent = getLaunchIntent(context)
-                launchIntent?.apply {
-                    putExtras(bundle)
-                    action = ACTION_CALL_ACCEPT
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) // Add this flag
-                }
+                launchIntent?.action = ACTION_CALL_ACCEPT
                 context.startActivity(launchIntent)
+                Log.d("EventReceiver", "App has been launched")
             }
 
             ACTION_CALL_NOTIFICATION_CANCELED -> {

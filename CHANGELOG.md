@@ -11,3 +11,11 @@
 
 * minor updates
     - handled decline callbacks from background
+
+## 0.0.2
+
+* minor updates
+
+## 0.0.4
+
+* minor updates

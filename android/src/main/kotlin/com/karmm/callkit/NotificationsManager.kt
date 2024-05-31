@@ -197,9 +197,7 @@ fun loadPhotoAndPostNotification(
 }
 
 fun getLaunchIntent(context: Context): Intent? {
-    val packageName = context.packageName
-    val packageManager: PackageManager = context.packageManager
-    return packageManager.getLaunchIntentForPackage(packageName)
+    return context.packageManager.getLaunchIntentForPackage(context.packageName)
 }
 
 fun createCallNotification(
