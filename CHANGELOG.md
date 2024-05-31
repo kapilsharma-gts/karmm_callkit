@@ -6,3 +6,8 @@
     - downgraded kotlin version
     - update example android module with required updates and gradle fixes
     - WIP setting up sample demo
+
+## 0.0.2
+
+* minor updates
+    - handled decline callbacks from background
