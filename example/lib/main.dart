@@ -13,7 +13,8 @@ import 'package:flutter_background_service_android/flutter_background_service_an
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,13 +45,16 @@ class _MyAppState extends State<MyApp> {
               children: [
                 Center(
                     child: ElevatedButton(
-                        onPressed: startService,
-                        child: Text("Start Service"))),
-                SizedBox(width: 10,),
+                        onPressed: startService, child: Text("Start Service"))),
+                SizedBox(
+                  width: 10,
+                ),
                 Center(
                     child: ElevatedButton(
                         onPressed: stopService, child: Text("Stop Service"))),
-                SizedBox(width: 10,),
+                SizedBox(
+                  width: 10,
+                ),
                 Center(
                     child: ElevatedButton(
                         onPressed: callInitiate, child: Text("init call")))
@@ -92,9 +96,9 @@ void initCallPushListeners() {
 // https://github.com/flutter/flutter/blob/master/docs/platforms/android/Upgrading-pre-1.12-Android-projects.md
 
 void initCallPush() {
-ConnectycubeFlutterCallKit.getLastCallId().then((value) {
-      ConnectycubeFlutterCallKit.reportCallEnded(sessionId: value);
-    });
+  ConnectycubeFlutterCallKit.getLastCallId().then((value) {
+    ConnectycubeFlutterCallKit.reportCallEnded(sessionId: value);
+  });
 
   var sessionId = DateTime.now().microsecondsSinceEpoch.toString();
   CallEvent callEvent = CallEvent(
@@ -306,7 +310,11 @@ void onStart(ServiceInstance service) async {
 
   ConnectycubeFlutterCallKit.setOnLockScreenVisibility(isVisible: true);
   ConnectycubeFlutterCallKit.onCallMuted = onCallMuted;
-  ConnectycubeFlutterCallKit.instance.init(onCallAccepted: _onCallAccepted, onCallRejected: _onCallRejected, onCallIncoming: _onCallIncoming,);
+  ConnectycubeFlutterCallKit.instance.init(
+    onCallAccepted: _onCallAccepted,
+    onCallRejected: _onCallRejected,
+    onCallIncoming: _onCallIncoming,
+  );
 
   // bring to foreground
   Timer.periodic(const Duration(seconds: 5), (timer) async {

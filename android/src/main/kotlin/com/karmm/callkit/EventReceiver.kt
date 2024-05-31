@@ -53,11 +53,8 @@ class EventReceiver : BroadcastReceiver() {
 
                 if (!isApplicationForeground(context)) {
                     broadcastIntent.putExtra("userCallbackHandleName", REJECTED_IN_BACKGROUND)
-                    ConnectycubeFlutterBgPerformingService.enqueueMessageProcessing(
-                        context,
-                        broadcastIntent
-                    )
                 }
+                ConnectycubeFlutterBgPerformingService.enqueueMessageProcessing(context,broadcastIntent)
             }
 
             ACTION_CALL_ACCEPT -> {
@@ -91,13 +88,11 @@ class EventReceiver : BroadcastReceiver() {
 
                 if (!isApplicationForeground(context)) {
                     broadcastIntent.putExtra("userCallbackHandleName", ACCEPTED_IN_BACKGROUND)
-                    ConnectycubeFlutterBgPerformingService.enqueueMessageProcessing(
-                        context,
-                        broadcastIntent
-                    )
                 }
+                ConnectycubeFlutterBgPerformingService.enqueueMessageProcessing(context,broadcastIntent)
 
                 val launchIntent = getLaunchIntent(context)
+                broadcastIntent.putExtras(bundle)
                 launchIntent?.action = ACTION_CALL_ACCEPT
                 context.startActivity(launchIntent)
             }
@@ -110,17 +105,8 @@ class EventReceiver : BroadcastReceiver() {
                 val callInitiatorName = extras?.getString(EXTRA_CALL_INITIATOR_NAME)
                 val callPhoto = extras?.getString(EXTRA_CALL_PHOTO)
                 val userInfo = extras?.getString(EXTRA_CALL_USER_INFO)
-                Log.i(
-                    TAG,
-                    "NotificationReceiver onReceive Delete Call Notification, callId: $callId"
-                )
-                LocalBroadcastManager.getInstance(context.applicationContext)
-                    .sendBroadcast(
-                        Intent(ACTION_CALL_NOTIFICATION_CANCELED).putExtra(
-                            EXTRA_CALL_ID,
-                            callId
-                        )
-                    )
+                Log.i(TAG,"NotificationReceiver onReceive Delete Call Notification, callId: $callId")
+                LocalBroadcastManager.getInstance(context.applicationContext).sendBroadcast(Intent(ACTION_CALL_NOTIFICATION_CANCELED).putExtra(EXTRA_CALL_ID,callId))
             }
         }
     }
