@@ -148,7 +148,7 @@
         android:id="@+id/tvSwipeUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="26dp"
+        android:layout_marginBottom="36dp"
         android:gravity="center"
         android:text="@string/swipe_up_to_pick_up_the_call"
         android:textColor="#000000"
