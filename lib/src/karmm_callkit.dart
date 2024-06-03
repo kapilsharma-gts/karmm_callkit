@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:ui';
+
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:universal_io/io.dart';
+
 import 'call_event.dart';
 
 /// Function type for handling accepted and rejected call events
@@ -20,6 +22,7 @@ class ConnectycubeFlutterCallKit {
 
   /// {@macro connectycube_flutter_call_kit}
   factory ConnectycubeFlutterCallKit() => _getInstance();
+
   const ConnectycubeFlutterCallKit._internal();
 
   static ConnectycubeFlutterCallKit get instance => _getInstance();
@@ -67,7 +70,6 @@ class ConnectycubeFlutterCallKit {
     updateConfig(
         ringtone: ringtone,
         icon: icon,
-        notificationIcon: notificationIcon,
         color: color);
 
     initEventsHandler();
@@ -304,6 +306,28 @@ class ConnectycubeFlutterCallKit {
       return result;
     });
   }
+
+ /// Returns whether the app can send fullscreen intents (required for showing
+  /// the Incoming call screen on the Lockscreen)
+  static Future<bool> canDisplayOverOtherApps() async {
+    if (!Platform.isAndroid) return Future.value(true);
+
+    return _methodChannel.invokeMethod("canDisplayOverOtherApps").then((result) {
+      if (result == null) {
+        return false;
+      }
+
+      return result;
+    });
+  }
+
+    /// Opens the Setting to grant/deny permission for running the fullscreen Intents
+  static Future<void> provideDisplayOverOtherApps() async {
+    if (!Platform.isAndroid) return Future.value();
+
+    return _methodChannel.invokeMethod("provideDisplayOverOtherApps");
+  }
+
 
   /// Opens the Setting to grant/deny permission for running the fullscreen Intents
   static Future<void> provideFullScreenIntentAccess() async {

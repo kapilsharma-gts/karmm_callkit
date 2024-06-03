@@ -71,7 +71,7 @@ class CallEvent {
       callerId: map['caller_id'] as int,
       callerName: map['caller_name'] as String,
       opponentsIds:
-          (map['call_opponents'] as String).split(',').map(int.parse).toSet(),
+      (map['call_opponents'] as String).split(',').map(int.parse).toSet(),
       callPhoto: map['photo_url'],
       userInfo: map['user_info'] != null
           ? Map<String, String>.from(jsonDecode(map['user_info']))

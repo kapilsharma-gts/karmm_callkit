@@ -4,6 +4,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application>
         <receiver android:name=".EventReceiver" />
@@ -12,7 +13,7 @@
             android:excludeFromRecents="true"
             android:inheritShowWhenLocked="true"
             android:noHistory="true"
-            android:screenOrientation="sensorPortrait"
+            android:screenOrientation="portrait"
             android:exported="true"
             android:showForAllUsers="true"
             android:showOnLockScreen="true"

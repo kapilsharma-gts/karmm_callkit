@@ -3,11 +3,13 @@ package com.karmm.callkit
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.dexterous.flutterlocalnotifications.ForegroundService
 import com.karmm.callkit.background_isolates.ConnectycubeFlutterBgPerformingService
 import com.karmm.callkit.utils.isApplicationForeground
 
@@ -52,11 +54,11 @@ class EventReceiver : BroadcastReceiver() {
                 processCallEnded(context, callId!!)
 
                 if (!isApplicationForeground(context)) {
-                    Log.d("EventReceiver", "App is in background")
                     broadcastIntent.putExtra("userCallbackHandleName", REJECTED_IN_BACKGROUND)
-                    ConnectycubeFlutterBgPerformingService.enqueueMessageProcessing(context,broadcastIntent)
-                } else {
-                    Log.d("EventReceiver", "App is in foreground")
+                    ConnectycubeFlutterBgPerformingService.enqueueMessageProcessing(
+                        context,
+                        broadcastIntent
+                    )
                 }
             }
 
@@ -90,14 +92,10 @@ class EventReceiver : BroadcastReceiver() {
                 saveCallState(context, callId!!, CALL_STATE_ACCEPTED)
 
                 if (!isApplicationForeground(context)) {
-                    Log.d("EventReceiver", "App is in background")
                     broadcastIntent.putExtra("userCallbackHandleName", ACCEPTED_IN_BACKGROUND)
-                    ConnectycubeFlutterBgPerformingService.enqueueMessageProcessing(context,broadcastIntent)
-                } else {
-                    Log.d("EventReceiver", "App is in foreground")
+                    ConnectycubeFlutterBgPerformingService.enqueueMessageProcessing(context, broadcastIntent)
                 }
 
-                Log.d("EventReceiver", "before App launch")
                 val launchIntent = getLaunchIntent(context)
                 launchIntent?.action = ACTION_CALL_ACCEPT
                 context.startActivity(launchIntent)
@@ -112,8 +110,17 @@ class EventReceiver : BroadcastReceiver() {
                 val callInitiatorName = extras?.getString(EXTRA_CALL_INITIATOR_NAME)
                 val callPhoto = extras?.getString(EXTRA_CALL_PHOTO)
                 val userInfo = extras?.getString(EXTRA_CALL_USER_INFO)
-                Log.i(TAG,"NotificationReceiver onReceive Delete Call Notification, callId: $callId")
-                LocalBroadcastManager.getInstance(context.applicationContext).sendBroadcast(Intent(ACTION_CALL_NOTIFICATION_CANCELED).putExtra(EXTRA_CALL_ID,callId))
+                Log.i(
+                    TAG,
+                    "NotificationReceiver onReceive Delete Call Notification, callId: $callId"
+                )
+                LocalBroadcastManager.getInstance(context.applicationContext)
+                    .sendBroadcast(
+                        Intent(ACTION_CALL_NOTIFICATION_CANCELED).putExtra(
+                            EXTRA_CALL_ID,
+                            callId
+                        )
+                    )
             }
         }
     }

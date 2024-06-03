@@ -17,9 +17,17 @@ import android.view.WindowManager
 import androidx.annotation.Keep
 import androidx.annotation.NonNull
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.karmm.callkit.background_isolates.ConnectycubeFlutterBgPerformingService
-import com.karmm.callkit.utils.*
 import com.google.firebase.messaging.FirebaseMessaging
+import com.karmm.callkit.background_isolates.ConnectycubeFlutterBgPerformingService
+import com.karmm.callkit.utils.ContextHolder
+import com.karmm.callkit.utils.getLong
+import com.karmm.callkit.utils.getMapFromJsonString
+import com.karmm.callkit.utils.getString
+import com.karmm.callkit.utils.isApplicationForeground
+import com.karmm.callkit.utils.mapToJsonString
+import com.karmm.callkit.utils.putLong
+import com.karmm.callkit.utils.putString
+import com.karmm.callkit.utils.remove
 import io.flutter.embedding.engine.FlutterShellArgs
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -30,7 +38,6 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry
-
 
 /** ConnectycubeFlutterCallKitPlugin */
 @Keep
@@ -317,12 +324,44 @@ class ConnectycubeFlutterCallKitPlugin : FlutterPlugin, MethodCallHandler,
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_HISTORY)
                         applicationContext?.startActivity(intent)
                     } catch (e: ActivityNotFoundException) {
-                        applicationContext?.startActivity(Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-                            .putExtra(Settings.EXTRA_APP_PACKAGE, applicationContext?.packageName)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                        applicationContext?.startActivity(
+                            Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                                .putExtra(
+                                    Settings.EXTRA_APP_PACKAGE,
+                                    applicationContext?.packageName
+                                )
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        )
                     }
                 } else {
-                    Log.d("ConnectycubeFlutterCallKitPlugin", "Permission request is available from API version 34 (UPSIDE_DOWN_CAKE) and above")
+                    Log.d(
+                        "ConnectycubeFlutterCallKitPlugin",
+                        "Permission request is available from API version 34 (UPSIDE_DOWN_CAKE) and above"
+                    )
+                }
+                result.success(null)
+            }
+
+            "canDisplayOverOtherApps" -> {
+                result.success(canDisplayOverOtherApps(applicationContext!!))
+            }
+
+            "provideDisplayOverOtherApps" -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    try {
+                        if (!Settings.canDrawOverlays(applicationContext)) {
+                            val intent = Intent(
+                                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                Uri.parse("package:${applicationContext?.packageName}")
+                            )
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_HISTORY)
+                            applicationContext?.startActivity(intent)
+                        }
+                    } catch (e: Exception) {
+                        Log.d("ConnectycubeFlutterCallKitPlugin", "Error: ${e.message}")
+                    }
+                } else{
+                    Log.d("ConnectycubeFlutterCallKitPlugin", "Permission request is available from API version 23 (M) and above")
                 }
                 result.success(null)
             }
@@ -395,7 +434,7 @@ fun notifyAboutIncomingCall(
 
     if (isApplicationForeground(context)) {
         LocalBroadcastManager.getInstance(context)
-        .sendBroadcast(intent)
+            .sendBroadcast(intent)
     } else {
         intent.putExtra("userCallbackHandleName", INCOMING_IN_BACKGROUND)
         ConnectycubeFlutterBgPerformingService.enqueueMessageProcessing(
@@ -404,11 +443,15 @@ fun notifyAboutIncomingCall(
         )
     }
 
-    Log.d("ConnectycubeFlutterCallKitPlugin", "[notifyAboutIncomingCall] sendBroadcast ACTION_CALL_INCOMING $callId")
+    Log.d(
+        "ConnectycubeFlutterCallKitPlugin",
+        "[notifyAboutIncomingCall] sendBroadcast ACTION_CALL_INCOMING $callId"
+    )
 }
 
 fun saveCallState(applicationContext: Context?, callId: String, callState: String) {
     if (applicationContext == null) return
+
     putString(applicationContext, callId + "_state", callState)
 }
 
@@ -633,7 +676,14 @@ class CallStreamHandler(private var context: Context) : EventChannel.StreamHandl
 
                 val launchIntent = getLaunchIntent(context!!)
                 launchIntent?.action = ACTION_CALL_ACCEPT
+                launchIntent?.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
                 context.startActivity(launchIntent)
+
+                Log.d(
+                    "ConnectycubeFlutterCallKitPlugin",
+                    "${isApplicationForeground(context)} isApplicationForeground"
+                )
             }
 
             ACTION_CALL_INCOMING -> {

@@ -5,6 +5,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:karmm_callkit/karmm_callkit.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:receive_intent/receive_intent.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -28,11 +30,11 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
+
 class _MyAppState extends State<MyApp> {
 
 @override
   void initState() {
-    
     super.initState();
   }
 
@@ -379,11 +381,14 @@ void onStart(ServiceInstance service) async {
 }
 
 Future<void> _isAndroidPermissionGranted() async {
-  if (Platform.isAndroid) {
-    await flutterLocalNotificationsPlugin
-            .resolvePlatformSpecificImplementation<
-                AndroidFlutterLocalNotificationsPlugin>()
-            ?.areNotificationsEnabled() ??
-        false;
+  bool canUseFullScreenIntent =  await ConnectycubeFlutterCallKit.canUseFullScreenIntent();
+  if(canUseFullScreenIntent == false){
+    ConnectycubeFlutterCallKit.provideFullScreenIntentAccess();
+  } else{
+    bool canDisplayOverOtherApps =  await ConnectycubeFlutterCallKit.canDisplayOverOtherApps();
+    if (canDisplayOverOtherApps == false){
+      ConnectycubeFlutterCallKit.provideDisplayOverOtherApps();
+    }
   }
 }
+

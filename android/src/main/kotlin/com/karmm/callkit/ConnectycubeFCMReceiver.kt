@@ -94,7 +94,7 @@ class ConnectycubeFCMReceiver : BroadcastReceiver() {
             callPhoto,
             userInfo
         )
-            
+
         showCallNotification(
             applicationContext,
             callId,

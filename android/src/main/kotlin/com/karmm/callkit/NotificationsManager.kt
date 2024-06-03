@@ -197,7 +197,11 @@ fun loadPhotoAndPostNotification(
 }
 
 fun getLaunchIntent(context: Context): Intent? {
-    return context.packageManager.getLaunchIntentForPackage(context.packageName)
+    val packageName = context.packageName
+    val packageManager: PackageManager = context.packageManager
+    return packageManager.getLaunchIntentForPackage(packageName).also {
+        //it?.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+    }
 }
 
 fun createCallNotification(
@@ -214,8 +218,11 @@ fun createCallNotification(
         .setImportant(true)
         .build()
 
-    val style = NotificationCompat.CallStyle.forIncomingCall(person, getRejectCallIntent(context, callData, title.hashCode()), getAcceptCallIntent(context, callData, title.hashCode()))
-
+    val style = NotificationCompat.CallStyle.forIncomingCall(
+        person,
+        getRejectCallIntent(context, callData, title.hashCode()),
+        getAcceptCallIntent(context, callData, title.hashCode())
+    )
     style.setIsVideo(callType == CALL_TYPES.VIDEO_CALL)
 
     val notificationBuilder = NotificationCompat.Builder(context, CALL_CHANNEL_ID)
@@ -411,4 +418,12 @@ fun setNotificationColor(context: Context, notificationBuilder: NotificationComp
 
 fun canUseFullScreenIntent(context: Context): Boolean {
     return NotificationManagerCompat.from(context).canUseFullScreenIntent()
+}
+
+fun canDisplayOverOtherApps(context: Context): Boolean {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        Settings.canDrawOverlays(context)
+    } else{
+        true
+    }
 }

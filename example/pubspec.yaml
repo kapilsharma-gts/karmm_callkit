@@ -28,7 +28,9 @@ dependencies:
   flutter_background_service: any
   device_info_plus: any
   flutter_local_notifications: any
-  shared_preferences: any
+  receive_intent: any
+
+  #shared_preferences: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

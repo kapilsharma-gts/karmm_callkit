@@ -44,3 +44,20 @@ fun isApplicationForeground(context: Context): Boolean {
     }
     return false
 }
+
+// check is app is active or not
+fun isAppIsInBackground(context: Context): Boolean {
+    var isInBackground = true
+    val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+    val runningProcesses = am.runningAppProcesses
+    for (processInfo in runningProcesses) {
+        if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+            for (activeProcess in processInfo.pkgList) {
+                if (activeProcess == context.packageName) {
+                    isInBackground = false
+                }
+            }
+        }
+    }
+    return isInBackground
+}
