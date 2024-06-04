@@ -676,14 +676,11 @@ class CallStreamHandler(private var context: Context) : EventChannel.StreamHandl
 
                 val launchIntent = getLaunchIntent(context!!)
                 launchIntent?.action = ACTION_CALL_ACCEPT
-                launchIntent?.flags =
-                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                launchIntent?.addCategory("android.intent.category.LAUNCHER")
+                launchIntent?.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
                 context.startActivity(launchIntent)
 
-                Log.d(
-                    "ConnectycubeFlutterCallKitPlugin",
-                    "${isApplicationForeground(context)} isApplicationForeground"
-                )
+                Log.d("ConnectycubeFlutterCallKitPlugin", "${isApplicationForeground(context)} isApplicationForeground")
             }
 
             ACTION_CALL_INCOMING -> {

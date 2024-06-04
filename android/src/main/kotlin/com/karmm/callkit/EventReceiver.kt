@@ -45,6 +45,7 @@ class EventReceiver : BroadcastReceiver() {
                 bundle.putString(EXTRA_CALL_PHOTO, callPhoto)
                 bundle.putString(EXTRA_CALL_USER_INFO, userInfo)
                 broadcastIntent.putExtras(bundle)
+                
 
                 LocalBroadcastManager.getInstance(context.applicationContext)
                     .sendBroadcast(broadcastIntent)
@@ -53,13 +54,8 @@ class EventReceiver : BroadcastReceiver() {
 
                 processCallEnded(context, callId!!)
 
-                if (!isApplicationForeground(context)) {
-                    broadcastIntent.putExtra("userCallbackHandleName", REJECTED_IN_BACKGROUND)
-                    ConnectycubeFlutterBgPerformingService.enqueueMessageProcessing(
-                        context,
-                        broadcastIntent
-                    )
-                }
+                broadcastIntent.putExtra("userCallbackHandleName", REJECTED_IN_BACKGROUND)
+                ConnectycubeFlutterBgPerformingService.enqueueMessageProcessing(context, broadcastIntent)
             }
 
             ACTION_CALL_ACCEPT -> {
