@@ -27,3 +27,9 @@
 
 ## 0.0.8
 * minor updates
+
+## 0.0.
+* minor updates
+
+## 0.0.10
+* minor updates
