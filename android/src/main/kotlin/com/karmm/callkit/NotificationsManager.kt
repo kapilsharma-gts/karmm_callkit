@@ -230,13 +230,14 @@ fun createCallNotification(
         .setContentText(callName)
         .setStyle(style)
         .addPerson(person)
-        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC) // Show on lock screen
         .setAutoCancel(true)
         .setOngoing(true)
         .setCategory(NotificationCompat.CATEGORY_CALL)
         .setContentIntent(pendingIntent)
         .setSound(ringtone)
         .setTimeoutAfter(60000)
+        .setPriority(NotificationCompat.PRIORITY_HIGH) // Prioritized notification
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         notificationBuilder.setPriority(NotificationManager.IMPORTANCE_HIGH)
@@ -337,7 +338,7 @@ fun createCallNotificationChannel(notificationManager: NotificationManagerCompat
         val channel = NotificationChannel(
             CALL_CHANNEL_ID,
             CALL_CHANNEL_NAME,
-            NotificationManager.IMPORTANCE_HIGH
+            NotificationManager.IMPORTANCE_HIGH // High importance for notification channel
         )
         channel.importance = NotificationManager.IMPORTANCE_HIGH
         channel.setSound(
