@@ -3,9 +3,9 @@
 # Run `pod lib lint connectycube_flutter_call_kit.podspec' to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'connectycube_flutter_call_kit'
+  s.name             = 'karmm_callkit'
   s.version          = '0.0.1'
-  s.summary          = 'Connectycube Call Kit plugin for flutter.'
+  s.summary          = 'karmm_callkit plugin for flutter.'
   s.description      = <<-DESC
 Connectycube Call Kit plugin for flutter.
                        DESC
