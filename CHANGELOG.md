@@ -36,3 +36,6 @@
 
 ## 0.0.11
 * minor updates
+
+## 0.0.12
+* minor updates
